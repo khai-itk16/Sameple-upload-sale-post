@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { UploadFileService } from './service/upload-file.service';
+import { SalePost } from './model/SalePost';
+declare var $: any;
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'web-sale-post-product';
-}
+  
+  constructor(private uploadFileService: UploadFileService) { }
+  
+  createSalePost() {
+    
+    let salePost = new SalePost();
+    
+    salePost.files = $('input[name="files"]').prop('files');
+    
+    console.log(salePost);
+    
+    this.uploadFileService.createSalePost(salePost).subscribe(
+      res => { console.log(res) },
+      error => { console.log(error) }
+      );
+    }
+  }
+  
